@@ -2,9 +2,26 @@
 body {
 	box-sizing: border-box;
 }
+
+h1 {
+    text-align: center;
+}
+
 .cell {
 	background-color: lightblue;
 	padding: 10px;
-	margin: 10px;
-	text-align: center;
+	margin: 1px;
+    height: 80px;
+    text-align: center;
+    color: red;
+    font-size: 38px;
+    border: 2px solid red;
 }
+
+#msgtext {
+    font-size: 28px;
+    text-align: center;
+    border: 5px solid lightblue;
+    margin: 20px auto;
+}
+
