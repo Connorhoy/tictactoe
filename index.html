@@ -10,25 +10,114 @@
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
 	      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
 	      crossorigin="anonymous">
-   	<link rel="stylesheet" href="style.css">
+   	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="row row1">
-			<div class="col-md-1 11 cell">_</div>
-			<div class="col-md-1 12 cell">_</div>
-			<div class="col-md-1 13 cell">_</div>
+			<div id="11" class="col-md-1 r0c0 cell" data-row=1 data-col=1>_</div>
+			<div id="12" class="col-md-1 r0c1 cell" data-row=1 data-col=2>_</div>
+			<div id="13" class="col-md-1 r0c2 cell" data-row=1 data-col=3>_</div>
 		</div>
 		<div class="row row2">
-			<div class="col-md-1 21 cell">_</div>
-			<div class="col-md-1 22 cell">_</div>
-			<div class="col-md-1 23 cell">_</div>
+			<div id="21" class="col-md-1 r1c0 cell" data-row=2 data-col=1>_</div>
+			<div id="22" class="col-md-1 r1c1 cell" data-row=2 data-col=2>_</div>
+			<div id="23" class="col-md-1 r1c2 cell" data-row=2 data-col=3>_</div>
 		</div>
 		<div class="row row3">
-			<div class="col-md-1 31 cell">_</div>
-			<div class="col-md-1 32 cell">_</div>
-			<div class="col-md-1 33 cell">_</div>
+			<div id="31" class="col-md-1 r2c0 cell" data-row=3 data-col=1>_</div>
+			<div id="32" class="col-md-1 r2c1 cell" data-row=3 data-col=2>_</div>
+			<div id="33" class="col-md-1 r3c2 cell" data-row=3 data-col=3>_</div>
+		</div>
+		<div id="message" class="row">
+			<div id="msgtext" class="col-md-9">Welcome!  :-)</div>
 		</div>
 	</div>
 </body>
+<script>
+	var board = [ [ 0 , 0 , 0 ], [ 0, 0, 0 ], [0, 0 ,0 ] ];
+
+	$(".cell").on("click", function() {
+        // Check to see if this cell has already been taken.
+        if ( $(this).text() !== "_" ) {
+			$("#msgtext").text("That cell is already used!");
+			console.log( "Re-entry!");
+            return;
+		}	
+        // Claim this cell
+		$(this).text("X");		
+		let row = $(this).data("row");   // Grab the row
+		let col = $(this).data("col");   // Grab the column
+		board[row - 1][col - 1] = 1;     // Set the shadow board to 1 for this cell
+		
+        // This is the "Game engine" -- "O" gets the next available cell (wow, eh?)
+		for ( var i = 0; i<3; i++ ) {         // scan left to right
+			for ( var j = 0; j<3; j++ ) {     // top to bottom
+				if ( board[i][j] === 0 ) {    // If the cell === 0 then its available
+					board[i][j] = -1;         // grab it
+                    var target = ".r" + i + "c" + j;
+                    console.log( "Target = " + target );
+					$(target).text("O");
+					i = 3; j = 3;;            // Bail out of the loop
+				}
+			}
+		}
+        
+        checkForWin();      // Check to see if there is a winner
+
+	});
+    /* checkForWin - 
+        scan across the board, left->right, top->bottom, & bot diagonals
+        Sum the shadow board values.  Any combo that sums to 3 or -3 indicates that
+        there is a winner, 3 = you win, -3 = the board wins.
+     */
+	function checkForWin() {
+		let sum = 0;
+        displayGrid();
+		// Check rows across 
+		for ( var i = 0; i < 3; i++ ) {
+			for ( var j = 0; j < 3; j++ ) {
+				sum += board[i][j];
+			}
+            gameCheck( sum, "Three across.");
+		}
+		// check rows down
+        sum = 0;
+		for ( var i = 0; i < 3; i++ ) {
+			for ( var j = 0; j < 3; j++ ) {
+				sum += board[j][i];
+			}
+            gameCheck( sum, "Three down.")
+		}
+        // check diaganol
+        sum = 0;
+        for ( var i = 0; i<3; i++ ) {
+            sum += board[i][i];
+        }
+        gameCheck( sum, "Diagonal forward");
+
+        sum = 0;
+        var j = 2;
+        for ( var i = 0; i<3; i++ ) {
+            sum += board[i][j];
+            j--;
+        }
+        gameCheck( sum, "Diagonal backward");
+	}
+
+    // gameCheck() - Check the sum and print the message if game over.
+	function gameCheck( pVal, pMsg ) {
+        if ( pVal === 3 ) {
+            alert( "You won! (" + pMsg + ")");
+        } else if ( pVal === - 3 ) {
+            alert( "You lost.  :-(" + pMsg + " )")
+        }
+	}
+
+    function displayGrid() {
+        console.log( " | " + board[0][0] + " | " + board[0][1] + " | " + board[0][2] + " |" );
+        console.log( " | " + board[1][0] + " | " + board[1][1] + " | " + board[1][2] + " |" );
+        console.log( " | " + board[2][0] + " | " + board[2][1] + " | " + board[2][2] + " |" );
+    }
+</script>
 </html>
