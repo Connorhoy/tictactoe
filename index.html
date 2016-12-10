@@ -123,20 +123,23 @@
 	function gameCheck( pVal, pMsg ) {
         if ( gameOver === 0 ) {
             if ( pVal === 3 ) {
-                alert( "You won! (" + pMsg + ")");
+                $("#msgtext").text("You WON! " + pMsg);
                 gameOver = 1;
             } else if ( pVal === -3 ) {
-                alert( "You lost.  :-(" + pMsg + " )")
+                $("#msgtext").text("You lost. " + pMsg);
                 gameOver = 1;
             } else if ( cellsTaken === 9 ) {
-                alert( "It's a draw" );
+                $("#msgtext").text("Game over.  It's a draw.");
                 gameOver = 1;
             }
         }
         
         if ( gameOver === 1 ) {
-            $(".cell").off("click");
-            $("#msgtext").text("Refresh to play again");
+            $(".cell").off("click");  // Disable any further selections
+            setTimeout( function() {  // Offer to play again 
+                var $msg = $("#msgtext");
+                $msg.text("Refresh to play again");
+            }, 2500)
         }
 	}
 
