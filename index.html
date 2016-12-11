@@ -44,7 +44,6 @@
 	var board = [ [ 0 , 0 , 0 ], [ 0, 0, 0 ], [0, 0 ,0 ] ];
     var cellsTaken = 0;
     var gameOver = 0;
-
 	$(".cell").on("click", function() {
         // Check to see if this cell has already been taken.
         if ( $(this).text() !== "_" ) {
@@ -74,7 +73,6 @@
 		}
         
         checkForWin();      // Check to see if there is a winner
-
 	});
     /* checkForWin - 
         scan across the board, left->right, top->bottom, & both diagonals
@@ -92,7 +90,6 @@
             gameCheck( sum, "Three across.");
             sum = 0;
 		}
-
 		// check rows down
         sum = 0;
 		for ( var i = 0; i < 3; i++ ) {
@@ -102,14 +99,12 @@
             gameCheck( sum, "Three down.")
             sum = 0;
 		}
-
         // check diaganol
         sum = 0;
         for ( var i = 0; i<3; i++ ) {
             sum += board[i][i];
         }
         gameCheck( sum, "Diagonal forward");
-
         sum = 0;
         var j = 2;
         for ( var i = 0; i<3; i++ ) {
@@ -118,7 +113,6 @@
         }
         gameCheck( sum, "Diagonal backward");
 	}
-
     // gameCheck() - Check the sum and print the message if game over.
 	function gameCheck( pVal, pMsg ) {
         if ( gameOver === 0 ) {
@@ -142,7 +136,6 @@
             }, 2500)
         }
 	}
-
     // diagnostic function
     function displayGrid() {
         console.log( " | " + board[0][0] + " | " + board[0][1] + " | " + board[0][2] + " |" );

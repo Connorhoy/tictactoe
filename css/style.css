@@ -1,6 +1,7 @@
 
 body {
 	box-sizing: border-box;
+    margin: 20px;
 }
 
 h1 {
@@ -18,7 +19,7 @@ h1 {
     border: 2px solid red;
 }
 
-#message {
+#msgtext {
     font-size: 28px;
     text-align: center;
     border: 5px solid lightblue;
